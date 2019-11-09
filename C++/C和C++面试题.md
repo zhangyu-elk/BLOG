@@ -30,5 +30,100 @@
 
 答: 一般在分配的内存前几个字节有一个结构体保存一些信息, 在`redis`中实现的动态字符串就是这种形式.
 
+-------------------2019年11月9日16点35分----------------------
+
+## 9 `__stdcall`和`__cdecl`的区别
+
+答: 函数参数均从右到左入栈, 但是前者被调用的函数自行清理堆栈, 后者是主动调用该函数的进行清理堆栈。 也因此, 前者需要确定的参数数量, 不能用于变参数.
+
+## 10, Linux有哪些调试宏
+
+答: `__FILE__`/`__LINE__`/`__FUNCTION__`分别指明文件名/行数/函数名
+
+## 11, 线程安全的单例模式
+
+**饿汉式**
+```
+class Singleton
+{
+private:
+	Singleton();
+	Singleton(Singleton const &);
+	Singleton & operator = (Singleton const &);
+	static Singleton *instance;
+public:
+	static Singleton* getInstatce()
+	{
+		return instance;
+	} 
+	
+};
+
+Singleton Singleton::instance = new Singleton();
+```
+
+
+**懒汉式**
+```
+class Singleton
+{
+private:
+	Singleton();
+	Singleton(Singleton const &);
+	Singleton & operator = (Singleton const &);
+	static Singleton *instance;
+	static std::mutex _mutex;
+public:
+	static Singleton* getInstatce()
+	{
+		if(nullptr == instance)
+		{
+			std::lock_guard<std::mutex> lk(_mutex);
+			if(nullptr == instance)
+			{
+				instance = new Singleton();
+			}
+		}
+
+		return instance;
+	} 
+	
+};
+
+
+std::mutex Singleton::_mutex;
+```
+
+**注意**:可以额外添加以静态成员用以销毁资源
+
+## 12, 引用和指针的区别?
+
+* 1 引用只是一个别名, 必须初始化, 不占用额外空间; 指针本身就是一种数据结构可以为`nullptr`, 占用4/8字节
+* 2 引用只能为一个成员的引用, 指针如果不加`const`限制的话可以修改其指向
+
+## 13, 出现异常时, `try`和`catch`分别干了什么?
+
+答: `try{}`用于包含可能抛出异常的语句; `catch{}`用于包含处理异常的语句
+
+## 14, C++如何处理多个异常
+```
+try
+{
+    //可能抛出异常的语句
+}
+catch (异常类型1)
+{
+    //异常类型1的处理程序
+}
+catch (异常类型2)
+{
+    //异常类型2的处理程序
+}
+// ……
+catch (异常类型n)
+{
+    //异常类型n的处理程序
+}
+```
 
 
