@@ -276,13 +276,41 @@ ps: 很多函数其是看一下原型就知道使用了, 不过往往还是有�
 
 ### 扩展
 
-* `clear` 情况字符串
-
-## 其他一些函数
+* `clear` 清空字符串
 
 * `being`/`length`/`size`等基本函数
 
-### 泛型函数`reverse`和`transform`
+## 截取字符串 `substr`和`substring`
+
+> 函数原型: `string substr (size_t pos = 0, size_t len = npos) const;`
+
+```
+#include <queue>
+#include <string>
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+
+
+int main()
+{
+	string a = "abcba";
+	string b = a.substr(1);
+	string c = a.substr(2, 2);
+	string d = a.substr(2, -1);
+	cout<<a<<" | "<<b<<" | "<<c<<" | "<<" | "<<d<<endl;
+
+}
+
+//结果
+abcba | bcba | cb |  | cba
+```
+第一个参数是从第几个索引开始
+第二个参数是截取的长度, 如果不带该参数或者传入负数默认截取索引后所有, 0则返回空字符串。
+
+
+## 泛型函数`reverse`和`transform`
 ```
 #include <queue>
 #include <string>
