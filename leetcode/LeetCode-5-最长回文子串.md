@@ -50,11 +50,11 @@ public:
 	    for(int k = 0; k < n; k++)
 	    //我们应当从斜线计算, 计算长度为1、2、3...
 	    {
-	    	if(i+k >= n)
-	    		continue;
-
 	    	for(int i = 0; i < n; i++)
-	    	{
+	    	{  
+                if(i+k >= n)
+	    		    break;
+
 	    		if(k == 0)
 	    		//长度为1, 必然是回文
 	    		{
@@ -83,16 +83,17 @@ public:
 	    		}
 	    		if(data[i][i+k])
 	    		{
-	    			if(res < k)
+	    			if(len < k)
 	    			{
-	    				res = s.substr(i, k);
+                        len = k;
+	    				res = s.substr(i, k+1);
 	    			}
 	    		}
 	    	}
 	    }
 
-        delete buffer;
-        delete data;
+        delete []buffer;
+        delete []data;
         return res;
     }
 };
